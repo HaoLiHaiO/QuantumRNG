@@ -15,7 +15,7 @@ namespace QuantumRNG {
         }
     }
 
-    operation SampleRandomNumberInRange(max : Int) : Int {
+    operation SampleRandomNumberInRange(min: Int, max : Int) : Int {
         // mutable means variables that can change during computation
         mutable output = 0;
         // repeat loop to generate random numbers until it generates one that is less or equal to max
@@ -26,7 +26,7 @@ namespace QuantumRNG {
             }
             // ResultArrayAsInt is from Microsoft.Quantum.Convert library, converts string to positive integer
             set output = ResultArrayAsInt(bits);
-        } until (output <= max);
+        } until (output >= min and output <= max);
         return output;
     }
 
@@ -34,9 +34,10 @@ namespace QuantumRNG {
     operation SampleRandomNumber() : Int {
         // let declares var which don't change during computation
         let max = 50;
-        Message($"Sampling a random number between 0 and {max}: ");
-        return SampleRandomNumberInRange(max);
+        let min = 10;
+        Message($"Sampling a random number between {min} and {max}: ");
+        return SampleRandomNumberInRange(min, max);
     }
 
-    // FOR FUN, to add a min value as well 
+    
 }
